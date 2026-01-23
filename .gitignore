@@ -139,6 +139,7 @@ cython_debug/
 data/**/*.db
 data/*.db
 *.sqlite3
+*.db
 
 # Custom temp
 testCode/
