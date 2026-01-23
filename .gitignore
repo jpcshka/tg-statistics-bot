@@ -142,3 +142,5 @@ data/*.db
 
 # Custom temp
 testCode/
+.ruff_cache/
+*test*

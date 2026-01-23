@@ -12,8 +12,8 @@ async def init_db(DB_PATH):
                         total_tracks INTEGER,
                         external_urls TEXT
                         );
-                    """) 
-         
+                    """)
+
         await db.execute("""
                     CREATE TABLE IF NOT EXISTS artists (
                         artist_id TEXT PRIMARY KEY,
@@ -21,8 +21,8 @@ async def init_db(DB_PATH):
                         type TEXT,
                         external_urls TEXT
                         );
-                    """)      
-        
+                    """)
+
         await db.execute("""
                     CREATE TABLE IF NOT EXISTS tracks (
                         track_id TEXT PRIMARY KEY,
@@ -36,7 +36,7 @@ async def init_db(DB_PATH):
                         FOREIGN KEY (album_id) REFERENCES albums(album_id)
                         );
                     """)
-    
+
         await db.execute("""
                     CREATE TABLE IF NOT EXISTS track_artists (
                         track_id TEXT,
@@ -48,7 +48,7 @@ async def init_db(DB_PATH):
                         PRIMARY KEY (track_id, artist_id)
                         );
                     """)
-        
+
         await db.execute("""
                     CREATE TABLE IF NOT EXISTS played_history (
                         id INTEGER PRIMARY KEY AUTOINCREMENT,
