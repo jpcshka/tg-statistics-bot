@@ -1,0 +1,13 @@
+[project]
+name = "tg-statistics-bot"
+version = "0.1.0"
+description = "A Telegram bot for collecting and displaying user statistics."
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "aiosqlite>=0.22.1",
+    "apscheduler>=3.11.2",
+    "dotenv>=0.9.9",
+    "fastapi[all]>=0.128.0",
+    "httpx>=0.28.1",
+]
