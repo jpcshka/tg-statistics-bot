@@ -7,15 +7,21 @@ BASE_URL = "https://wakatime.com/api/v1"
 
 
 async def get_daily_stats(wakatime_token: str) -> Dict[str, Any]:
-    """Статиска за день на момент запроса.
-
-    Args:
-        wakatime_token (str): Токен для доступа к API Wakatime
-
-    Returns:
-        - Dict[str, Any]: Статистика за текущий день: дата, общее время,
-          проекты и языки программирования.
     """
+    Статиска за день на момент запроса. (GET /users/current/status_bar/today)
+
+    :param wakatime_token: Токен для доступа к API Wakatime
+    :type wakatime_token: str
+    :return: Словарь со статистикой за день: дата, общее время, проекты, языки.
+
+        В случае ошибки возвращает словарь с ключами:
+            - **python_error** (str): Тип ошибки ("request_error" или "unexpected_error").
+            - **message** (str): Описание ошибки.
+
+        Или JSON ответ от Wakatime API при HTTP статусе != 200.
+    :rtype: Dict[str, Any]
+    """
+
     token = base64.b64encode(wakatime_token.encode()).decode()
 
     headers = {"Authorization": f"Basic {token}"}
@@ -43,17 +49,25 @@ async def get_daily_stats(wakatime_token: str) -> Dict[str, Any]:
 async def get_stats_for_range(
     wakatime_token: str, start: str, end: str
 ) -> Dict[str, Any]:
-    """Статистика за указанный диапазон дат.
-
-    Args:
-        wakatime_token (str): Токен для доступа к API Wakatime
-        start (str): Начальная дата в формате 'YYYY-MM-DD'
-        end (str): Конечная дата в формате 'YYYY-MM-DD'
-
-    Returns:
-        - Dict[str, Any]: Статистика за указанный диапазон дат: общее время, 
-        среднее за диапазон и данные по дням.
     """
+    Статистика за указанный диапазон дат. (GET /users/current/summaries)
+
+    :param wakatime_token: Токен для доступа к API Wakatime
+    :type wakatime_token: str
+    :param start: Начальная дата в формате 'YYYY-MM-DD'
+    :type start: str
+    :param end: Конечная дата в формате 'YYYY-MM-DD'
+    :type end: str
+    :return: Статистика за указанный диапазон дат: общее время, среднее за диапазон и данные по дням.
+
+        В случае ошибки возвращает словарь с ключами:
+            - **python_error** (str): Тип ошибки ("request_error" или "unexpected_error").
+            - **message** (str): Описание ошибки.
+
+        Или JSON ответ от Wakatime API при HTTP статусе != 200.
+    :rtype: Dict[str, Any]
+    """
+
     token = base64.b64encode(wakatime_token.encode()).decode()
     headers = {"Authorization": f"Basic {token}"}
 

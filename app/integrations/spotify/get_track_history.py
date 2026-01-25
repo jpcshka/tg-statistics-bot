@@ -8,16 +8,27 @@ BASE_URL = "https://api.spotify.com/v1"
 async def get_track_history(
     access_token: str, limit: Optional[int] = 50, after: Optional[int] = None
 ) -> Dict[str, Any]:
-    """Делает запрос к Spotify API для получения истории прослушанных треков пользователя. (GET /me/player/recently-played)
-
-    Args:
-        access_token (str): Токен доступа Spotify API.
-        limit (int, optional): Количество треков для получения. По умолчанию 50 (максимум).
-        after (int, optional): Временная метка (в миллисекундах) для получения треков, сыгранных после этого времени. По умолчанию None.
-
-    Returns:
-        - Dict[str, Any]: Словарь с историей прослушанных треков или информацией об ошибке.
     """
+    Делает запрос к Spotify API для получения истории прослушанных треков пользователя.
+    (GET /me/player/recently-played)
+
+    :param access_token: Токен доступа Spotify API.
+    :type access_token: str
+    :param limit: Количество треков для получения. По умолчанию 50 (максимум).
+    :type limit: Optional[int]
+    :param after: Временная метка (в миллисекундах) для получения треков, после этого времени.
+        По умолчанию None.
+    :type after: Optional[int]
+    :return: Словарь с историей прослушанных треков или информацией об ошибке.
+
+        В случае ошибки возвращает словарь с ключами:
+            - **python_error** (str): Тип ошибки ("request_error" или "unexpected_error").
+            - **message** (str): Описание ошибки.
+
+        Или JSON ответ от Spotify API при HTTP статусе != 200.
+    :rtype: Dict[str, Any]
+    """
+
     async with httpx.AsyncClient(base_url=BASE_URL) as client:
         headers = {"Authorization": f"Bearer {access_token}"}
         params = {"limit": limit}
