@@ -1,4 +1,4 @@
-# точка входа в приложение FastAPI
+import asyncio
 from fastapi import FastAPI
 from app.core.config import (
     REFRESH_TOKEN,
@@ -6,7 +6,7 @@ from app.core.config import (
     SPOTIFY_CLIENT_SECRET,
     DB_PATH,
 )
-
+from app.db.sync_after import ensure_sync_state_file_exists
 from app.services.scheduler import init_scheduler, start_scheduler, shutdown_scheduler
 from scripts.init_db import init_db
 
@@ -24,7 +24,7 @@ print(f"DB_PATH={DB_PATH}")
 async def on_startup():
     """Действия при старте приложения"""
     init_scheduler()
-    await init_db(DB_PATH)
+    await asyncio.gather(init_db(DB_PATH=DB_PATH), ensure_sync_state_file_exists())
     start_scheduler()
 
 

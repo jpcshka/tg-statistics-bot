@@ -7,6 +7,7 @@ from app.core.config import (
 from app.integrations.spotify.get_access_token import get_access_token
 from app.integrations.spotify.get_track_history import get_track_history
 from app.db.sessions import get_db
+from app.db.sync_after import get_after, update_after
 from app.db.spotify.write import (
     save_album,
     save_artist,
@@ -27,7 +28,20 @@ async def collect_spotify_data() -> None:
     if not access_token:
         raise ValueError("Не удалось получить access token")
 
-    track_history = await get_track_history(access_token=access_token, limit=30)
+    after = await get_after()
+
+    track_history = await get_track_history(
+        access_token=access_token, limit=30, after=after
+    )
+
+    new_after = track_history.get("after")
+    if new_after:
+        try:
+            new_after_int = int(new_after)
+            await update_after(new_after_int)
+        except ValueError:
+            print(f"Не удалось преобразовать after в int: {new_after}")
+
     if not DB_PATH:
         raise ValueError("DB_PATH не задан в .env")
 

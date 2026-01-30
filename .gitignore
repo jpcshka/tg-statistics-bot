@@ -145,3 +145,4 @@ data/*.db
 testCode/
 .ruff_cache/
 *test*
+sync_state.json
