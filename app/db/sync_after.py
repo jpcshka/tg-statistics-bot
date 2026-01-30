@@ -7,8 +7,8 @@ from typing import Optional
 SYNC_STATE_FILE = "app/db/sync_state.json"
 
 
-async def ensure_sync_state_file_exists() -> None:
-    """Проверяет, что файл состояния существует, и создает его, если его нет."""
+async def init_sync_file() -> None:
+    """Инициализирует файл состояния синхронизации."""
     if not os.path.exists(SYNC_STATE_FILE):
         async with aiofiles.open(SYNC_STATE_FILE, "w") as f:
             await f.write(json.dumps({"after": None}, indent=2))

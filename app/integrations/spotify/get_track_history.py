@@ -49,14 +49,17 @@ async def get_track_history(
             return {"python_error": "unexpected_error", "message": str(e)}
         if response.status_code != 200:
             return response.json()
-
+        
         data = response.json()
+        if not data.get("items"):
+            return {"tracks": [], "after": None}
+        
         result = {
             "before": data.get("cursors", {}).get("before"),
             "after": data.get("cursors", {}).get("after"),
         }
         tracks = []
-        for item in data.get("items", []):
+        for item in data.get("items", [])[::-1]:
             track_info = item.get("track", {})
             data = {
                 "track_id": track_info.get("id"),
