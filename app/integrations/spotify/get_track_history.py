@@ -49,7 +49,7 @@ async def get_track_history(
             return {"python_error": "unexpected_error", "message": str(e)}
         if response.status_code != 200:
             return response.json()
-        
+
         data = response.json()
         if not data.get("items"):
             return {"tracks": [], "after": None}

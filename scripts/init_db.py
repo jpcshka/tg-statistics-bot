@@ -58,5 +58,11 @@ async def init_db(DB_PATH):
                         FOREIGN KEY (track_id) REFERENCES tracks(track_id)
                         );
                     """)
+        await db.execute("""
+                    CREATE TABLE IF NOT EXISTS wakatime (
+                        date TEXT PRIMARY KEY,
+                        data TEXT NOT NULL
+                    );
+                    """)
 
         await db.commit()
